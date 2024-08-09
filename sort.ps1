@@ -13,12 +13,17 @@
     https://github.com/FabioTavernini/FilesortPS
 #>
 
+[CmdletBinding()]
+param (
+    [Parameter()]
+    [switch]$NoDialogue
+)
 
-
-# Adding Types and defining Vars
+#region Adding Types and defining Vars
 Add-Type -AssemblyName System.Windows.Forms
+#endregion
 
-
+#region Functions
 function Compare-FileHashes {
     param (
         [Parameter(Mandatory = $true)]
@@ -59,19 +64,29 @@ function Compare-FileHashes {
     return $matchingFiles
 }
 
-$FileBrowser = New-Object System.Windows.Forms.FolderBrowserDialog -Property @{ InitialDirectory = ".\" }
-$Null = $FileBrowser.ShowDialog()
+#endregion
 
-$selectedpath = $FileBrowser.SelectedPath
+#region script execution
+
+if ($NoDialogue -eq $false) {
+    $FileBrowser = New-Object System.Windows.Forms.FolderBrowserDialog -Property @{ InitialDirectory = ".\" }
+    $Null = $FileBrowser.ShowDialog()
+
+    $selectedpath = $FileBrowser.SelectedPath
+
+}
+else {
+    $selectedpath = Read-Host -Prompt "Folder to check for duplicates"
+}
 
 $childelements = Get-ChildItem -Path $selectedpath -Recurse -Force | Select-Object LastWriteTime, Length, Name, FullName
 
-
 $multiples = $childelements | Group-Object Name | Where-Object { $_.Count -gt 1 }
-
 
 foreach ($multiple in $multiples) {
 
     compare-Filehashes -FilePaths $multiple.Group.FullName
 
 }
+
+#endregion

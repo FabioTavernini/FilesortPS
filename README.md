@@ -8,10 +8,10 @@ Select folder with FolderBrowserDialog, then get all elements inside the folder 
 If the hashes match, return the filenames that are a match.
 
 ## NOTES
-Untested in PS 5.1
-Tested in PS 7.4.3
+Untested in PS 5.1 <br>
+Tested in PS 7.4.3 <br>
 Added test folder as example
 
 ## How to run
-Download or clone the repo, find [./sort.ps1](./sort.ps1) and execute using Powershell.
+Download or clone the repo, find [./sort.ps1](./sort.ps1) and execute using Powershell. <br>
 If the Filedialogue is not shown in foreground, check all opened windows with  `alt + tab`.
